@@ -123,7 +123,7 @@ class MovieDB
 
         //--------------------- union: movie UNION cinema
 
-        out.println ();
+        out.println ("union");
         var t_union = movie.union (cinema);
         t_union.print ();
 

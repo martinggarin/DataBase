@@ -75,10 +75,10 @@ public class Table
     private static Map <KeyType, Comparable []> makeMap ()
     {
         switch (mType) {
-        case TREE_MAP:    return new TreeMap <> ();
-        case LINHASH_MAP: return new LinHashMap <> (KeyType.class, Comparable [].class);
-        case BPTREE_MAP:  return new BpTreeMap <> (KeyType.class, Comparable [].class);
-        default:          return null;
+        	case TREE_MAP:    return new TreeMap <> ();
+        	//case LINHASH_MAP: return new LinHashMap <> (KeyType.class, Comparable [].class);
+        	//case BPTREE_MAP:  return new BpTreeMap <> (KeyType.class, Comparable [].class);
+        	default:          return null;
         } // switch
     } // makeMap
 
@@ -161,7 +161,9 @@ public class Table
         var newKey    = (Arrays.asList (attrs).containsAll (Arrays.asList (key))) ? key : attrs;
 
         List <Comparable []> rows = new ArrayList <> ();
-
+        for(Comparable[] e: this.tuples) {
+        	rows.add(this.extract(e, attrs));
+        }
         //  T O   B E   I M P L E M E N T E D 
 
         return new Table (name + count++, attrs, colDomain, newKey, rows);
@@ -178,6 +180,8 @@ public class Table
     public Table select (Predicate <Comparable []> predicate)
     {
         out.println ("RA> " + name + ".select (" + predicate + ")");
+        
+        
 
         return new Table (name + count++, attribute, domain, key,
                    tuples.stream ().filter (t -> predicate.test (t))
@@ -196,6 +200,8 @@ public class Table
         out.println ("RA> " + name + ".select (" + keyVal + ")");
 
         List <Comparable []> rows = new ArrayList <> ();
+        
+        rows.add(this.index.get(keyVal));//check this with prof
 
         //  T O   B E   I M P L E M E N T E D 
 
@@ -214,9 +220,18 @@ public class Table
     {
         out.println ("RA> " + name + ".union (" + table2.name + ")");
         if (! compatible (table2)) return null;
-
-        List <Comparable []> rows = new ArrayList <> ();
-
+        	
+        @SuppressWarnings("rawtypes")
+		List <Comparable []> rows = new ArrayList <> ();
+		
+		
+        for(Comparable[] e: this.tuples) {
+        	rows.add(e);
+        	
+        }
+        for(Comparable[] e: table2.tuples) {
+        	rows.add(e);
+        }
         //  T O   B E   I M P L E M E N T E D 
 
         return new Table (name + count++, attribute, domain, key, rows);
@@ -237,6 +252,23 @@ public class Table
         if (! compatible (table2)) return null;
 
         List <Comparable []> rows = new ArrayList <> ();
+        
+        for(Comparable[] e: this.tuples) {
+        	
+        	boolean isThere = false; 
+        	
+        	for(Comparable[] f : table2.tuples) {
+        		
+        		if( e.equals(f)) { //ask about this
+        			isThere = true;
+        			break;
+        		}
+        	
+        	}//for
+        	
+        	if(!isThere)
+        		rows.add(e);
+        }
 
         //  T O   B E   I M P L E M E N T E D 
 
@@ -264,6 +296,16 @@ public class Table
         var t_attrs = attributes1.split (" ");
         var u_attrs = attributes2.split (" ");
         var rows    = new ArrayList <Comparable []> ();
+        
+        for(Comparable[] e: this.tuples) {
+        	for(Comparable [] f : table2.tuples) {
+        
+        		rows.add(this.extract(e, t_attrs ));
+        		rows.add(table2.extract(f,u_attrs));
+        		
+        	}//for
+        	
+        }//for
 
         //  T O   B E   I M P L E M E N T E D 
 
