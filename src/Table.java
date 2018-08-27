@@ -153,7 +153,7 @@ public class Table
      * @param attributes  the attributes to project onto
      * @return  a table of projected tuples
      */
-    public Table project (String attributes)
+    public Table project (String attributes) //no idea on how to do this
     {
         out.println ("RA> " + name + ".project (" + attributes + ")");
         var attrs     = attributes.split (" ");
@@ -195,13 +195,13 @@ public class Table
      * @param keyVal  the given key value
      * @return  a table with the tuple satisfying the key predicate
      */
-    public Table select (KeyType keyVal)
+    public Table select (KeyType keyVal) //works needs more testing
     {
         out.println ("RA> " + name + ".select (" + keyVal + ")");
 
         List <Comparable []> rows = new ArrayList <> ();
         
-        rows.add(this.index.get(keyVal));//check this with prof
+        rows.add(this.index.get(keyVal));
 
         //  T O   B E   I M P L E M E N T E D 
 
@@ -216,7 +216,7 @@ public class Table
      * @param table2  the rhs table in the union operation
      * @return  a table representing the union
      */
-    public Table union (Table table2)
+    public Table union (Table table2) //works needs more testing
     {
         out.println ("RA> " + name + ".union (" + table2.name + ")");
         if (! compatible (table2)) return null;
@@ -246,7 +246,7 @@ public class Table
      * @param table2  The rhs table in the minus operation
      * @return  a table representing the difference
      */
-    public Table minus (Table table2)
+    public Table minus (Table table2) //works needs more testing
     {
         out.println ("RA> " + name + ".minus (" + table2.name + ")");
         if (! compatible (table2)) return null;
@@ -259,7 +259,7 @@ public class Table
         	
         	for(Comparable[] f : table2.tuples) {
         		
-        		if( e.equals(f)) { //ask about this
+        		if( e.equals(f)) { 
         			isThere = true;
         			break;
         		}
@@ -288,7 +288,7 @@ public class Table
      * @param table2      the rhs table in the join operation
      * @return  a table with tuples satisfying the equality predicate
      */
-    public Table join (String attributes1, String attributes2, Table table2)
+    public Table join (String attributes1, String attributes2, Table table2) //needs to be done
     {
         out.println ("RA> " + name + ".join (" + attributes1 + ", " + attributes2 + ", "
                                                + table2.name + ")");
