@@ -196,7 +196,9 @@ public class Table
 
         List <Comparable []> rows = new ArrayList <> ();
 
-        //  T O   B E   I M P L E M E N T E D 
+        rows = tuples.stream()
+        		.filter(t -> (new KeyType(extract(t, key))).equals(keyVal))
+        		.collect(Collectors.toList()); 
 
         return new Table (name + count++, attribute, domain, key, rows);
     } // select
