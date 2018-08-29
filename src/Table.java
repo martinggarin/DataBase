@@ -153,7 +153,7 @@ public class Table
      * @param attributes  the attributes to project onto
      * @return  a table of projected tuples
      */
-    public Table project (String attributes) //no idea on how to do this
+    public Table project (String attributes)
     {
         out.println ("RA> " + name + ".project (" + attributes + ")");
         var attrs     = attributes.split (" ");
@@ -195,15 +195,15 @@ public class Table
      * @param keyVal  the given key value
      * @return  a table with the tuple satisfying the key predicate
      */
-    public Table select (KeyType keyVal) //works needs more testing
+    public Table select (KeyType keyVal)
     {
         out.println ("RA> " + name + ".select (" + keyVal + ")");
 
         List <Comparable []> rows = new ArrayList <> ();
-        
-        rows.add(this.index.get(keyVal));
 
-        //  T O   B E   I M P L E M E N T E D 
+        rows = tuples.stream()
+        		.filter(t -> (new KeyType(extract(t, key))).equals(keyVal))
+        		.collect(Collectors.toList()); 
 
         return new Table (name + count++, attribute, domain, key, rows);
     } // select
