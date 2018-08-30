@@ -120,6 +120,41 @@ class MovieDB
         out.println ();
         var t_iselect = movieStar.select (new KeyType ("Harrison_Ford"));
         t_iselect.print ();
+        
+        //Select Test #1
+        //Expected Output: Table that contains the movie Rambo from the Table cinema
+        //Table with selected tuple should be printed to the console
+        out.println("Select Test #1");
+        var selectTest1 = cinema.select(new KeyType("Rambo", 1978));
+        selectTest1.print();
+        
+        //Select Test #2
+        //Expected Output: Table that contains the movie exec S_Speilberg from the Table movieExec
+        //Table with selected tuple should be printed to the console
+        out.println("Select Test #2");
+        var selectTest2 = movieExec.select(new KeyType(9999));
+        selectTest2.print();
+        
+        //Select Test #3
+        //Expected Output: Table that contains the movie Star Wars from the Table movie
+        //Table with selected tuple should be printed to the console
+        out.println("Select Test #3");
+        var selectTest3 = movie.select(new KeyType("Star_Wars", 1977));
+        selectTest3.print();
+        
+        //Select Test #4
+        //Expected Output: Table that contains the star Mark Hamill from the Table movieStar
+        //Table with selected tuple should be printed to the console
+        out.println("Select Test #4");
+        var selectTest4 = movieStar.select(new KeyType("Mark_Hamill"));
+        selectTest4.print();
+        
+        //Select Test #5
+        //Expected Output: Table that contains the studio Universal from the table studio
+        //Table with selected tuple should be printed to the console
+        out.println("Select Test #5");
+        var selectTest5 = studio.select(new KeyType("Universal"));
+        selectTest5.print();
 
         //--------------------- union: movie UNION cinema
 
