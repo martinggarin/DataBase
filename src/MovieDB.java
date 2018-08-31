@@ -142,7 +142,7 @@ class MovieDB
         //--------------------- natural join: movie JOIN studio
 
         out.println ();
-        var t_join2 = movie.join (cinema);
+        var t_join2 = movieStar.join (starsIn);
         t_join2.print ();
 
     } // main
