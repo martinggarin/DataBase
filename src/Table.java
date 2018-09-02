@@ -353,8 +353,7 @@ public class Table
      */
  public Table join (Table table2)
     {
-    	//this.print();	   //debug test to see table1	
-    	//table2.print(); //debug test to see table2
+    	
     	Class [] newDomain = new Class[table2.domain.length-1]; //new Domain list without duplicate col.
     	var newAttribute = new String [table2.attribute.length -1];//new attribute list without duplicate col.
     	var thisTableSize = this.attribute.length; //the width of tuple of this object.
@@ -377,8 +376,7 @@ public class Table
     						// if removing Col in middle/begging of DB, 
 							//this ensures we use the correct if statement to put information in correct location
     						boolean skip = false;  
-    						System.out.print(table2.attribute.length);
-    						System.out.print(table2.attribute.length-1);
+    						
     						for(int m = 0; m < table2.attribute.length-1; m++) {
     							if(m == k && m == table2.attribute.length-2) { //if last col. in DB is dupe, do nothing.  
     								break;
