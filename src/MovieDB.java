@@ -176,9 +176,16 @@ class MovieDB
 
         //--------------------- natural join: movie JOIN studio
 
-        out.println ();
-        var t_join2 = movieStar.join (starsIn);
-        t_join2.print ();
+        var kev_test1 = movieStar.join(starsIn);
+        kev_test1.print ();
+        var kev_test2 = movie.join(studio);
+        kev_test2.print();
+        var kev_test3 = movieExec.join(movieStar);
+        kev_test3.print();
+        var kev_test4 = starsIn.join(movieStar);
+        kev_test4.print();
+        var kev_test5 = movieExec.join(studio);
+        kev_test5.print();
 
     } // main
 
