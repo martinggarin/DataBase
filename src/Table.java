@@ -351,18 +351,81 @@ public class Table
      * @param table2  the rhs table in the join operation
      * @return  a table with tuples satisfying the equality predicate
      */
-    public Table join (Table table2)
+ public Table join (Table table2)
     {
-        out.println ("RA> " + name + ".join (" + table2.name + ")");
-
+    	
+    	Class [] newDomain = new Class[table2.domain.length-1]; //new Domain list without duplicate col.
+    	var newAttribute = new String [table2.attribute.length -1];//new attribute list without duplicate col.
+    	var thisTableSize = this.attribute.length; //the width of tuple of this object.
+    	var otherTableSize = table2.attribute.length;//the width tuple of table2.
         var rows = new ArrayList <Comparable []> ();
+  
+    	for(int i = 0; i < this.tuples.size(); i++) { //iterate to get each tuple in table1.
+    		boolean added = false;  //value to restart at next tuple in table1 if we already added the current tuple.  
+    		for(int j = 0; j < table2.tuples.size(); j++) { //iterate to get each tuple in table2.
+    			if(added) { 
+    				break;
+    			}
+    			for(int h = 0; h < thisTableSize; h++)  { //get values of each index in tuple1 in table1. 
+    				if(added) {
+    				break;	
+    				}
+    				for(int k = 0; k < otherTableSize; k++ ) { //get values of each index in tuple2 in table2.  
+    					if((this.tuples.get(i)[h]).equals(table2.tuples.get(j)[k])) { //check each value if equal.
+    						Comparable arrayHere [] = new Comparable[table2.attribute.length-1];
+    						// if removing Col in middle/begging of DB, 
+							//this ensures we use the correct if statement to put information in correct location
+    						boolean skip = false;  
+    						
+    						for(int m = 0; m < table2.attribute.length-1; m++) {
+    							if(m == k && m == table2.attribute.length-2) { //if last col. in DB is dupe, do nothing.  
+    								break;
+    							}
+    				/*			if(m == table2.attribute.length-2) { //if last col. and we want to add it.  
+    								arrayHere[m] = table2.tuples.get(j)[m];
+        							newDomain[m] = table2.domain[m];
+        							newAttribute[m] = table2.attribute[m];
+    								break;
+    							} */
+    							else if(m==k) { //means that we do not want to add kth value within tuples/attributes.
+    								skip = true; 
+    								int newHolder = m+1;
+    								arrayHere[m] = table2.tuples.get(j)[newHolder];
+        							newDomain[m] = table2.domain[newHolder];
+        							newAttribute[m] = table2.attribute[newHolder];
+    							}
+    							else if (skip == true) { //we changed DB previously, therefore adding values to array differently.
+    								int newHolder = m+1;
+    								arrayHere[m] = table2.tuples.get(j)[newHolder];
+        							newDomain[m] = table2.domain[newHolder];
+        							newAttribute[m] = table2.attribute[newHolder];
+    							}
+    							else {//Base case to copy information to new array.
+    							   							
+    							arrayHere[m] = table2.tuples.get(j)[m];
+    							newDomain[m] = table2.domain[m];
+    							newAttribute[m] = table2.attribute[m];
+    							}//end if statements
+    						}//for
+    					
+    						var newTuple = new ArrayList <Comparable []>();
+    						newTuple.add(arrayHere);
+    						var joinedTuples = ArrayUtil.concat(this.tuples.get(i), newTuple.get(0)); //if equal, we want to join that set of tuples.
 
-        //  T O   B E   I M P L E M E N T E D 
-
+    						rows.add(joinedTuples);
+    						added = true;
+    						break;
+    					}//if 
+    				}//for
+    			}//for
+    		}//for
+    	}//for
+    	
         // FIX - eliminate duplicate columns
-        return new Table (name + count++, ArrayUtil.concat (attribute, table2.attribute),
-                                          ArrayUtil.concat (domain, table2.domain), key, rows);
+        return new Table (name + count++, ArrayUtil.concat (attribute, newAttribute),
+                                          ArrayUtil.concat (domain, newDomain), key, rows);
     } // join
+
 
     /************************************************************************************
      * Return the column position for the given attribute name.
